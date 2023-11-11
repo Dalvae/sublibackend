@@ -33,6 +33,13 @@ const DATABASE_URL =
 
 const REDIS_URL = process.env.REDIS_URL || "redis://localhost:6379";
 
+const BACKEND_URL = process.env.BACKEND_URL || "localhost:9000";
+const ADMIN_URL = process.env.ADMIN_URL || "localhost:7000";
+const STORE_URL = process.env.STORE_URL || "localhost:8000";
+
+const GoogleClientId = process.env.GOOGLE_CLIENT_ID || "";
+const GoogleClientSecret = process.env.GOOGLE_CLIENT_SECRET || "";
+
 const plugins = [
   `medusa-fulfillment-manual`,
   `medusa-payment-manual`,
@@ -64,6 +71,49 @@ const plugins = [
       // optional
       download_file_duration: process.env.S3_DOWNLOAD_FILE_DURATION,
       prefix: process.env.S3_PREFIX,
+    },
+  },
+  {
+    resolve: "medusa-plugin-auth",
+    /** @type {import('medusa-plugin-auth').AuthOptions} */
+    options: {
+      // strict: "all", // or "none" or "store" or "admin"
+      google: {
+        clientID: GoogleClientId,
+        clientSecret: GoogleClientSecret,
+
+        admin: {
+          callbackUrl: `${BACKEND_URL}/admin/auth/google/cb`,
+          failureRedirect: `${ADMIN_URL}/login`,
+
+          // The success redirect can be overriden from the client by adding a query param `?redirectTo=your_url` to the auth url
+          // This query param will have the priority over this configuration
+          successRedirect: `${ADMIN_URL}/`,
+
+          // authPath: '/admin/auth/google',
+          // authCallbackPath: '/admin/auth/google/cb',
+          // expiresIn: 24 * 60 * 60 * 1000,
+          // verifyCallback: (container, req, accessToken, refreshToken, profile, strict) => {
+          //    // implement your custom verify callback here if you need it
+          // }
+        },
+
+        store: {
+          callbackUrl: `${BACKEND_URL}/store/auth/google/cb`,
+          failureRedirect: `${STORE_URL}/login`,
+
+          // The success redirect can be overriden from the client by adding a query param `?redirectTo=your_url` to the auth url
+          // This query param will have the priority over this configuration
+          successRedirect: `${STORE_URL}/`,
+
+          // authPath: '/store/auth/google',
+          // authCallbackPath: '/store/auth/google/cb',
+          // expiresIn: 24 * 60 * 60 * 1000,
+          // verifyCallback: (container, req, accessToken, refreshToken, profile, strict) => {
+          //    // implement your custom verify callback here if you need it
+          // }
+        },
+      },
     },
   },
 ];
