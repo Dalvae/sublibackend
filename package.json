@@ -45,7 +45,8 @@
     "medusa-payment-stripe": "^6.0.5",
     "medusa-plugin-auth": "^1.8.1",
     "prism-react-renderer": "^2.0.4",
-    "typeorm": "^0.3.16"
+    "typeorm": "^0.3.16",
+    "transbank-sdk": "4.0.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.14.3",
