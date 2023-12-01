@@ -155,12 +155,7 @@ class WebPayPaymentProcessor extends AbstractPaymentProcessor {
   async updatePayment(
     context: PaymentProcessorContext
   ): Promise<void | PaymentProcessorError | PaymentProcessorSessionResponse> {
-    // prepare data
-
-    return {
-      session_data,
-      update_requests,
-    };
+    throw new Error("Method not implemented.");
   }
   async updatePaymentData(
     sessionId: string,
