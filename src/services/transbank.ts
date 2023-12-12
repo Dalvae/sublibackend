@@ -22,9 +22,12 @@ interface PaymentProcessorError {
   code?: string;
   detail?: any;
 }
+function truncateResourceId(resourceId) {
+  return resourceId.substring(0, 26);
+}
 
 class WebPayPaymentProcessor extends AbstractPaymentProcessor {
-  static identifier = "webpay";
+  static identifier = "Webpay";
   webpayOptions: Options;
 
   constructor(container, options) {
@@ -67,9 +70,10 @@ class WebPayPaymentProcessor extends AbstractPaymentProcessor {
     const tx = new WebpayPlus.Transaction(this.webpayOptions);
 
     try {
+      const buyOrder = truncateResourceId(context.resource_id);
       // Crear la transacción en Transbank
       const transbankResponse = await tx.create(
-        context.resource_id, // buyOrder: Identificador único de la compra
+        buyOrder, // buyOrder: Identificador único de la compra
         context.customer?.id || context.email, // sessionId: ID de sesión o email del cliente
         context.amount, // amount: Monto de la transacción
         "https://www.sublimahyca.cl/"
