@@ -159,7 +159,11 @@ class WebPayPaymentProcessor extends AbstractPaymentProcessor {
   async updatePayment(
     context: PaymentProcessorContext
   ): Promise<void | PaymentProcessorError | PaymentProcessorSessionResponse> {
-    throw new Error("Method not implemented.");
+    // Como no necesitamos actualizar la transacción en Transbank, simplemente devolvemos los datos existentes.
+    // Asegúrate de que esto es consistente con tu lógica de negocio.
+    return {
+      session_data: context.paymentSessionData,
+    };
   }
   async updatePaymentData(
     sessionId: string,
