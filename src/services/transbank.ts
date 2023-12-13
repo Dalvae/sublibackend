@@ -44,7 +44,7 @@ class WebPayPaymentProcessor extends AbstractPaymentProcessor {
 
   protected buildError(
     message: string,
-    e: Error | PaymentProcessorError
+    e: Error | PaymentProcessorErrorPaymentProcessor
   ): PaymentProcessorError {
     // Determinar si 'e' es un PaymentProcessorError o un Error estándar
     let isPPError = (error: any): error is PaymentProcessorError => {
@@ -74,7 +74,7 @@ class WebPayPaymentProcessor extends AbstractPaymentProcessor {
       // Crear la transacción en Transbank
       const transbankResponse = await tx.create(
         buyOrder, // buyOrder: Identificador único de la compra
-        context.customer?.id || context.email, // sessionId: ID de sesión o email del cliente
+        "Sublimahyca" // sessionId: Supongo que es el nombre del comercio
         context.amount, // amount: Monto de la transacción
         "https://www.sublimahyca.cl/"
       );
