@@ -16,17 +16,12 @@ import {
   IntegrationCommerceCodes,
 } from "transbank-sdk";
 import { EOL } from "os";
+import { v4 as uuidv4 } from "uuid";
 
 interface PaymentProcessorError {
   error: string;
   code?: string;
   detail?: any;
-}
-function getLastCharacters(resourceId, length = 26) {
-  if (resourceId.length <= length) {
-    return resourceId;
-  }
-  return resourceId.substring(resourceId.length - length);
 }
 
 class WebPayPaymentProcessor extends AbstractPaymentProcessor {
@@ -73,12 +68,12 @@ class WebPayPaymentProcessor extends AbstractPaymentProcessor {
     const tx = new WebpayPlus.Transaction(this.webpayOptions);
 
     try {
-      const buyOrder = getLastCharacters(context.resource_id);
+      const buyOrder = uuidv4().replace(/-/g, "").substring(0, 26);
       const transbankResponse = await tx.create(
         buyOrder, // buyOrder: Identificador único de la compra
         "Sublimahyca", // sessionId: Supongo que es el nombre del comercio
         context.amount, // amount: Monto de la transacción
-        "https://www.sublimahyca.cl/"
+        "https://www.sublimahyca.cl/order/confirmed/"
       );
 
       // Preparar los datos de la sesión para almacenar en Medusa
