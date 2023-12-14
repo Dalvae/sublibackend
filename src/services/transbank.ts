@@ -75,7 +75,7 @@ class WebPayPaymentProcessor extends AbstractPaymentProcessor {
 
     try {
       const buyOrder = getLastCharacters(context.resource_id);
-      console.log("Generated Buy Order:", buyOrder); // Añade esta línea para hacer log de buyOrder
+      console.log("Generated Buy Order:", buyOrder);
       const transbankResponse = await tx.create(
         context.resource_id, // buyOrder: Identificador único de la compra
         "Sublimahyca", // sessionId: Supongo que es el nombre del comercio
@@ -164,16 +164,24 @@ class WebPayPaymentProcessor extends AbstractPaymentProcessor {
   async updatePayment(
     context: PaymentProcessorContext
   ): Promise<void | PaymentProcessorError | PaymentProcessorSessionResponse> {
-    // Como no necesitamos actualizar la transacción en Transbank, simplemente devolvemos los datos existentes.
-    // Asegúrate de que esto es consistente con tu lógica de negocio.
+    // Aquí puedes agregar lógica si necesitas actualizar algo con Transbank,
+    // de lo contrario, simplemente devuelve los datos de la sesión de pago actual.
+
+    const session_data = context.paymentSessionData;
+    const update_requests = {};
+
     return {
-      session_data: context.paymentSessionData,
+      session_data,
+      update_requests,
     };
   }
+
   async updatePaymentData(
     sessionId: string,
     data: Record<string, unknown>
   ): Promise<Record<string, unknown> | PaymentProcessorError> {
+    // Devuelve los datos proporcionados tal como están.
+    // Agrega aquí lógica adicional si necesitas interactuar con Transbank.
     return data;
   }
 
