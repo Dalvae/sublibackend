@@ -87,6 +87,7 @@ class WebPayPaymentProcessor extends AbstractPaymentProcessor {
       const session_data = {
         transbankToken: transbankResponse.token,
         redirectUrl: transbankResponse.url,
+        buysOrder: buyOrder,
         // Otros datos relevantes...
       };
 
