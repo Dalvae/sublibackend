@@ -74,7 +74,7 @@ class WebPayPaymentProcessor extends AbstractPaymentProcessor {
 
     try {
       const buyOrder = uuidv4().replace(/-/g, "").substring(0, 26);
-      console.log("Generated Buy Orderxx:", buyOrder);
+      console.log("Generated Buy Orderx:", buyOrder);
       const transbankResponse = await tx.create(
         buyOrder, // buyOrder: Identificador único de la compra
         "Sublimahyca", // sessionId: Supongo que es el nombre del comercio
@@ -162,10 +162,12 @@ class WebPayPaymentProcessor extends AbstractPaymentProcessor {
   async updatePayment(
     context: PaymentProcessorContext
   ): Promise<void | PaymentProcessorError | PaymentProcessorSessionResponse> {
-    // Aquí puedes agregar lógica si necesitas actualizar algo con Transbank,
-    // de lo contrario, simplemente devuelve los datos de la sesión de pago actual.
+    const buyOrder = uuidv4().replace(/-/g, "").substring(0, 26);
 
-    const session_data = context.paymentSessionData;
+    const session_data = {
+      ...context.paymentSessionData,
+      buyOrder, // Actualizar el buyOrder en los datos de la sesión
+    };
     const update_requests = {};
 
     return {
