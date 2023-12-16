@@ -73,8 +73,8 @@ class WebPayPaymentProcessor extends AbstractPaymentProcessor {
     const tx = new WebpayPlus.Transaction(this.webpayOptions);
 
     try {
-      const buyOrder = uuidv4();
-      console.log("Generated Buy Order:", buyOrder);
+      const buyOrder = uuidv4().replace(/-/g, "").substring(0, 26);
+      console.log("Generated Buy Orderxx:", buyOrder);
       const transbankResponse = await tx.create(
         buyOrder, // buyOrder: Identificador único de la compra
         "Sublimahyca", // sessionId: Supongo que es el nombre del comercio
