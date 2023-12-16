@@ -17,7 +17,6 @@ import {
 } from "transbank-sdk";
 import { EOL } from "os";
 import { v4 as uuidv4 } from "uuid";
-
 interface PaymentProcessorError {
   error: string;
   code?: string;
@@ -74,7 +73,7 @@ class WebPayPaymentProcessor extends AbstractPaymentProcessor {
     const tx = new WebpayPlus.Transaction(this.webpayOptions);
 
     try {
-      const buyOrder = getLastCharacters(context.resource_id);
+      const buyOrder = uuidv4();
       console.log("Generated Buy Order:", buyOrder);
       const transbankResponse = await tx.create(
         buyOrder, // buyOrder: Identificador único de la compra
@@ -83,7 +82,6 @@ class WebPayPaymentProcessor extends AbstractPaymentProcessor {
         "https://www.sublimahyca.cl/order/confirmed/"
       );
 
-      // Preparar los datos de la sesión para almacenar en Medusa
       const session_data = {
         transbankToken: transbankResponse.token,
         redirectUrl: transbankResponse.url,
