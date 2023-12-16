@@ -77,7 +77,7 @@ class WebPayPaymentProcessor extends AbstractPaymentProcessor {
       console.log("Generated Buy Orderxs:", buyOrder);
       const transbankResponse = await tx.create(
         buyOrder, // buyOrder: Identificador único de la compra
-        context.resource_id, // sessionId: Supongo que es el nombre del comercio
+        context.resource_id, // sessionId: Supongo que es el nombre del comercio, aqui el codigo del carrito
         context.amount, // amount: Monto de la transacción
         `https://www.sublimahyca.cl/order/confirmed/${context.resource_id}`
       );
