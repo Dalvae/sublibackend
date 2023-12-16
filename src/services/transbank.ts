@@ -79,7 +79,7 @@ class WebPayPaymentProcessor extends AbstractPaymentProcessor {
         buyOrder, // buyOrder: Identificador único de la compra
         context.resource_id, // sessionId: Supongo que es el nombre del comercio
         context.amount, // amount: Monto de la transacción
-        "https://www.sublimahyca.cl/order/confirmed/"
+        `https://www.sublimahyca.cl/order/confirmed/${context.resource_id}`
       );
 
       const session_data = {
