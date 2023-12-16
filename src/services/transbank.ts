@@ -164,7 +164,7 @@ class WebPayPaymentProcessor extends AbstractPaymentProcessor {
   ): Promise<void | PaymentProcessorError | PaymentProcessorSessionResponse> {
     // Generar un nuevo buyOrder
     const newBuyOrder = uuidv4().replace(/-/g, "").substring(0, 26);
-
+    console.log("Generated new Buy Order:", newBuyOrder); // Mostrar el nuevo buyOrder
     try {
       // Crear una nueva transacción con Transbank
       const tx = new WebpayPlus.Transaction(this.webpayOptions);
