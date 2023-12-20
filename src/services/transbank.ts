@@ -215,12 +215,39 @@ class WebPayPaymentProcessor extends AbstractPaymentProcessor {
         data: Record<string, unknown>;
       }
   > {
-    return {
-      status: PaymentSessionStatus.AUTHORIZED,
-      data: {
-        id: "test",
-      },
-    };
+    // Obtiene el token_ws de paymentSessionData
+    const transbankTokenWs = paymentSessionData.transbankTokenWs as string;
+
+    if (!transbankTokenWs) {
+      return {
+        error: "Token ws de Transbank no proporcionado",
+      };
+    }
+
+    try {
+      const tx = new WebpayPlus.Transaction(this.webpayOptions);
+      const response = await tx.commit(transbankTokenWs);
+
+      if (response.response_code === 0) {
+        // Si la respuesta es exitosa y el código de respuesta es 0, autoriza el pago
+        return {
+          status: PaymentSessionStatus.AUTHORIZED,
+          data: {
+            ...response, // Puedes incluir aquí los datos relevantes de la respuesta
+          },
+        };
+      } else {
+        // Si hay un error, devuelve detalles del error
+        return {
+          error: "Autorización fallida",
+          code: response.response_code.toString(),
+          detail: response,
+        };
+      }
+    } catch (error) {
+      console.error("Error al autorizar el pago con Transbank:", error);
+      return this.buildError("Error authorizing payment with Transbank", error);
+    }
   }
 
   async capturePayment(
