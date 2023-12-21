@@ -157,36 +157,45 @@ class WebPayPaymentProcessor extends AbstractPaymentProcessor {
   async updatePayment(
     context: PaymentProcessorContext
   ): Promise<void | PaymentProcessorError | PaymentProcessorSessionResponse> {
-    // Generar un nuevo buyOrder
-    const newBuyOrder = uuidv4().replace(/-/g, "").substring(0, 26);
-    console.log("Generated new Buy Order:", newBuyOrder); // Mostrar el nuevo buyOrder
-    try {
-      // Crear una nueva transacción con Transbank
-      const tx = new WebpayPlus.Transaction(this.webpayOptions);
-      const transbankResponse = await tx.create(
-        newBuyOrder, // Nuevo buyOrder
-        context.resource_id, // sessionId
-        context.amount, // Monto actualizado
-        "https://www.sublimahyca.cl/order/confirmed/"
-      );
-
-      // Preparar los nuevos datos de la sesión con la respuesta de Transbank
-      const session_data = {
-        transbankToken: transbankResponse.token,
-        redirectUrl: transbankResponse.url,
-        buyOrder: newBuyOrder, // Actualizar con el nuevo buyOrder
-        // Otros datos relevantes...
-      };
-
-      const update_requests = {};
-
+    if (context.paymentSessionData.transbankTokenWs) {
+      // Si transbankTokenWs ya está presente, solo actualiza los datos existentes
+      // Lógica para actualizar los datos existentes
+      // ...
       return {
-        session_data,
-        update_requests,
+        session_data: context.paymentSessionData, // Devuelve los datos actuales
+        update_requests: {}, // Sin solicitudes de actualización adicionales
       };
-    } catch (error) {
-      console.error("Error al actualizar el pago con Transbank:", error);
-      throw this.buildError("Error updating payment with Transbank", error);
+    } else {
+      const newBuyOrder = uuidv4().replace(/-/g, "").substring(0, 26);
+      console.log("Generated new Buy Order:", newBuyOrder); // Mostrar el nuevo buyOrder
+      try {
+        // Crear una nueva transacción con Transbank
+        const tx = new WebpayPlus.Transaction(this.webpayOptions);
+        const transbankResponse = await tx.create(
+          newBuyOrder, // Nuevo buyOrder
+          context.resource_id, // sessionId
+          context.amount, // Monto actualizado
+          "https://www.sublimahyca.cl/order/confirmed/"
+        );
+
+        // Preparar los nuevos datos de la sesión con la respuesta de Transbank
+        const session_data = {
+          transbankToken: transbankResponse.token,
+          redirectUrl: transbankResponse.url,
+          buyOrder: newBuyOrder, // Actualizar con el nuevo buyOrder
+          // Otros datos relevantes...
+        };
+
+        const update_requests = {};
+
+        return {
+          session_data,
+          update_requests,
+        };
+      } catch (error) {
+        console.error("Error al actualizar el pago con Transbank:", error);
+        throw this.buildError("Error updating payment with Transbank", error);
+      }
     }
   }
 
