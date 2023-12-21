@@ -23,12 +23,6 @@ interface PaymentProcessorError {
   detail?: any;
 }
 
-function getLastCharacters(resourceId, length = 26) {
-  if (resourceId.length <= length) {
-    return resourceId;
-  }
-  return resourceId.substring(resourceId.length - length);
-}
 class WebPayPaymentProcessor extends AbstractPaymentProcessor {
   static identifier = "Webpay";
   webpayOptions: Options;
@@ -223,17 +217,24 @@ class WebPayPaymentProcessor extends AbstractPaymentProcessor {
     context: Record<string, unknown>
   ): Promise<
     | PaymentProcessorError
-    | {
-        status: PaymentSessionStatus;
-        data: Record<string, unknown>;
-      }
+    | { status: PaymentSessionStatus; data: Record<string, unknown> }
   > {
     // Obtiene el token_ws de paymentSessionData
     const transbankTokenWs = paymentSessionData.transbankTokenWs as string;
 
+    // Asumiendo que tienes el token original almacenado en alguna parte, por ejemplo, en el contexto o en una base de datos
+    const originalTransbankToken = context.originalTransbankToken as string;
+
     if (!transbankTokenWs) {
       return {
         error: "Token ws de Transbank no proporcionado",
+      };
+    }
+
+    // Comprobación adicional para asegurarse de que los tokens coinciden
+    if (transbankTokenWs !== originalTransbankToken) {
+      return {
+        error: "Inconsistencia en el token de Transbank",
       };
     }
 
