@@ -158,6 +158,10 @@ class WebPayPaymentProcessor extends AbstractPaymentProcessor {
     context: PaymentProcessorContext
   ): Promise<void | PaymentProcessorError | PaymentProcessorSessionResponse> {
     if (context.paymentSessionData.transbankTokenWs) {
+      console.log(
+        "Transbank Token WS present:",
+        context.paymentSessionData.transbankTokenWs
+      ); // Agregar registro aquí
       // Si transbankTokenWs ya está presente, solo actualiza los datos existentes
       // Lógica para actualizar los datos existentes
       // ...
