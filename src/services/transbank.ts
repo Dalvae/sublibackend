@@ -192,8 +192,6 @@ class WebPayPaymentProcessor extends AbstractPaymentProcessor {
   > {
     // Obtiene el token_ws de paymentSessionData
     const transbankTokenWs = paymentSessionData.transbankTokenWs as string;
-
-    // Asumiendo que tienes el token original almacenado en alguna parte, por ejemplo, en el contexto o en una base de datos
     const originalTransbankToken = paymentSessionData.transbankToken as string;
 
     if (!transbankTokenWs) {
@@ -202,7 +200,6 @@ class WebPayPaymentProcessor extends AbstractPaymentProcessor {
       };
     }
 
-    // Comprobación adicional para asegurarse de que los tokens coinciden
     if (transbankTokenWs !== originalTransbankToken) {
       console.log(`Inconsistencia de Token detectada: 
       Token WS: ${transbankTokenWs}
@@ -223,6 +220,7 @@ class WebPayPaymentProcessor extends AbstractPaymentProcessor {
         };
       } else {
         // Si hay un error, devuelve detalles del error
+        console.log(response);
         return {
           error: "Autorización fallida",
           code: response.response_code.toString(),
