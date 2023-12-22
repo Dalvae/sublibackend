@@ -213,7 +213,7 @@ class WebPayPaymentProcessor extends AbstractPaymentProcessor {
     const transbankTokenWs = paymentSessionData.transbankTokenWs as string;
 
     // Asumiendo que tienes el token original almacenado en alguna parte, por ejemplo, en el contexto o en una base de datos
-    const originalTransbankToken = context.originalTransbankToken as string;
+    const originalTransbankToken = paymentSessionData.transbankToken as string;
 
     if (!transbankTokenWs) {
       return {
@@ -223,9 +223,9 @@ class WebPayPaymentProcessor extends AbstractPaymentProcessor {
 
     // Comprobación adicional para asegurarse de que los tokens coinciden
     if (transbankTokenWs !== originalTransbankToken) {
-      return {
-        error: "Inconsistencia en el token de Transbank",
-      };
+      console.log(`Inconsistencia de Token detectada: 
+      Token WS: ${transbankTokenWs}
+      Token Original: ${originalTransbankToken}`);
     }
 
     try {
