@@ -152,8 +152,12 @@ class WebPayPaymentProcessor extends AbstractPaymentProcessor {
     context: PaymentProcessorContext
   ): Promise<void | PaymentProcessorError | PaymentProcessorSessionResponse> {
     const storedAmount = context.paymentSessionData.amount as number;
-    const currentAmount = context.amount;
+    const currentAmount = context.amount as number;
     if (storedAmount !== currentAmount) {
+      console.log(`Diferencia detectada en los montos:
+      Monto almacenado: ${storedAmount}
+      Monto actual: ${currentAmount}`);
+
       const tx = new WebpayPlus.Transaction(this.webpayOptions);
       const newBuyOrder = uuidv4().replace(/-/g, "").substring(0, 26);
       console.log("Generated new Buy Order:", newBuyOrder);
