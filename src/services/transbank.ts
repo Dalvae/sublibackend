@@ -151,44 +151,12 @@ class WebPayPaymentProcessor extends AbstractPaymentProcessor {
   async updatePayment(
     context: PaymentProcessorContext
   ): Promise<void | PaymentProcessorError | PaymentProcessorSessionResponse> {
-    const storedAmount = context.paymentSessionData.amount as number;
-    const currentAmount = context.amount as number;
-    if (storedAmount !== currentAmount) {
-      console.log(`Diferencia detectada en los montos:
-      Monto almacenado: ${storedAmount}
-      Monto actual: ${currentAmount}`);
-
-      const tx = new WebpayPlus.Transaction(this.webpayOptions);
-      const newBuyOrder = uuidv4().replace(/-/g, "").substring(0, 26);
-      console.log("Generated new Buy Order:", newBuyOrder);
-
-      try {
-        const transbankResponse = await tx.create(
-          newBuyOrder,
-          context.resource_id,
-          currentAmount,
-          "https://www.sublimahyca.cl/checkout"
-        );
-
-        // Preparar los nuevos datos de la sesión
-        const session_data = {
-          transbankToken: transbankResponse.token,
-          redirectUrl: transbankResponse.url,
-          buyOrder: newBuyOrder,
-        };
-
-        return {
-          session_data,
-          update_requests: {},
-        };
-      } catch (error) {
-        console.error("Error al crear nueva transacción con Transbank:", error);
-        throw this.buildError(
-          "Error creating new transaction with Transbank",
-          error
-        );
-      }
-    }
+    // Simplemente devuelve los datos actuales de la sesión de pago
+    // Aquí puedes agregar lógica adicional si es necesario, como verificar si el monto ha cambiado
+    // y manejar ese caso de forma adecuada.
+    return {
+      session_data: context.paymentSessionData,
+    };
   }
 
   async updatePaymentData(
