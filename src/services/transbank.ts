@@ -151,48 +151,38 @@ class WebPayPaymentProcessor extends AbstractPaymentProcessor {
   async updatePayment(
     context: PaymentProcessorContext
   ): Promise<void | PaymentProcessorError | PaymentProcessorSessionResponse> {
-    if (context.paymentSessionData.transbankTokenWs) {
-      console.log(
-        "Transbank Token WS present:",
-        context.paymentSessionData.transbankTokenWs
-      ); // Agregar registro aquí
-      // Si transbankTokenWs ya está presente, solo actualiza los datos existentes
-      // Lógica para actualizar los datos existentes
-      // ...
-      return {
-        session_data: context.paymentSessionData, // Devuelve los datos actuales
-        update_requests: {}, // Sin solicitudes de actualización adicionales
-      };
-    } else {
+    const storedAmount = context.paymentSessionData.amount as number;
+    const currentAmount = context.amount;
+    if (storedAmount !== currentAmount) {
+      const tx = new WebpayPlus.Transaction(this.webpayOptions);
       const newBuyOrder = uuidv4().replace(/-/g, "").substring(0, 26);
-      console.log("Generated new Buy Orders:", newBuyOrder); // Mostrar el nuevo buyOrder
+      console.log("Generated new Buy Order:", newBuyOrder);
+
       try {
-        // Crear una nueva transacción con Transbank
-        const tx = new WebpayPlus.Transaction(this.webpayOptions);
         const transbankResponse = await tx.create(
-          newBuyOrder, // Nuevo buyOrder
-          context.resource_id, // sessionId
-          context.amount, // Monto actualizado
-          "https://www.sublimahyca.cl/order/confirmed/"
+          newBuyOrder,
+          context.resource_id,
+          currentAmount,
+          "https://www.sublimahyca.cl/checkout"
         );
 
-        // Preparar los nuevos datos de la sesión con la respuesta de Transbank
+        // Preparar los nuevos datos de la sesión
         const session_data = {
           transbankToken: transbankResponse.token,
           redirectUrl: transbankResponse.url,
-          buyOrder: newBuyOrder, // Actualizar con el nuevo buyOrder
-          // Otros datos relevantes...
+          buyOrder: newBuyOrder,
         };
-
-        const update_requests = {};
 
         return {
           session_data,
-          update_requests,
+          update_requests: {},
         };
       } catch (error) {
-        console.error("Error al actualizar el pago con Transbank:", error);
-        throw this.buildError("Error updating payment with Transbank", error);
+        console.error("Error al crear nueva transacción con Transbank:", error);
+        throw this.buildError(
+          "Error creating new transaction with Transbank",
+          error
+        );
       }
     }
   }
