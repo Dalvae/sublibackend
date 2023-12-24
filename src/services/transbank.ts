@@ -210,6 +210,7 @@ class WebPayPaymentProcessor extends AbstractPaymentProcessor {
     try {
       const tx = new WebpayPlus.Transaction(this.webpayOptions);
       const response = await tx.commit(transbankTokenWs);
+      console.log(transbankTokenWs);
 
       if (response.response_code === 0) {
         // Si la respuesta es exitosa y el código de respuesta es 0, autoriza el pago
