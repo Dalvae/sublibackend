@@ -212,34 +212,29 @@ class WebPayPaymentProcessor extends AbstractPaymentProcessor {
       Token WS: ${transbankTokenWs}
       Token Original: ${originalTransbankToken}`);
     }
-
     try {
-      console.log("Creando transacción con Transbank");
       const tx = new WebpayPlus.Transaction(this.webpayOptions);
 
-      console.log("Realizando commit con Transbank");
-      const response = await tx.commit(transbankTokenWs);
+      // Registro del cuerpo de la solicitud
+      console.log("Cuerpo de la solicitud a Transbank:", transbankTokenWs);
+
+      let response;
+      try {
+        response = await tx.commit(transbankTokenWs);
+      } catch (err) {
+        console.error("Error durante tx.commit en Transbank:", err);
+        // Si el error tiene un cuerpo de respuesta, también regístralo
+        if (err.response) {
+          console.error(
+            "Cuerpo de la respuesta de error de Transbank:",
+            err.response.data
+          );
+        }
+        throw err; // Lanza de nuevo el error para manejarlo en el catch exterior
+      }
 
       console.log(`Respuesta recibida de Transbank:`, response);
-
-      if (response.response_code === 0) {
-        // Si la respuesta es exitosa y el código de respuesta es 0, autoriza el pago
-        console.log("Autorización de pago exitosa");
-        return {
-          status: PaymentSessionStatus.AUTHORIZED,
-          data: {
-            ...response,
-          },
-        };
-      } else {
-        // Si hay un error, devuelve detalles del error
-        console.log("Autorización de pago fallida", response);
-        return {
-          error: "Autorización fallida",
-          code: response.response_code.toString(),
-          detail: response,
-        };
-      }
+      // ... (resto del manejo de la respuesta)
     } catch (error) {
       console.error(
         "Error al intentar autorizar el pago con Transbank:",
