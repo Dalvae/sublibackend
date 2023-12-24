@@ -191,11 +191,17 @@ class WebPayPaymentProcessor extends AbstractPaymentProcessor {
     | PaymentProcessorError
     | { status: PaymentSessionStatus; data: Record<string, unknown> }
   > {
+    console.log("Iniciando proceso de autorización de pago");
+
     // Obtiene el token_ws de paymentSessionData
     const transbankTokenWs = paymentSessionData.transbankTokenWs as string;
     const originalTransbankToken = paymentSessionData.transbankToken as string;
 
+    console.log(`Token WS recibido: ${transbankTokenWs}`);
+    console.log(`Token Original: ${originalTransbankToken}`);
+
     if (!transbankTokenWs) {
+      console.error("Token ws de Transbank no proporcionado");
       return {
         error: "Token ws de Transbank no proporcionado",
       };
@@ -208,23 +214,26 @@ class WebPayPaymentProcessor extends AbstractPaymentProcessor {
     }
 
     try {
+      console.log("Creando transacción con Transbank");
       const tx = new WebpayPlus.Transaction(this.webpayOptions);
+
+      console.log("Realizando commit con Transbank");
       const response = await tx.commit(transbankTokenWs);
-      console.log(`Token WS: ${transbankTokenWs}`);
-      console.log(response);
+
+      console.log(`Respuesta recibida de Transbank:`, response);
+
       if (response.response_code === 0) {
         // Si la respuesta es exitosa y el código de respuesta es 0, autoriza el pago
+        console.log("Autorización de pago exitosa");
         return {
           status: PaymentSessionStatus.AUTHORIZED,
           data: {
-            ...response, // Puedes incluir aquí los datos relevantes de la respuesta
+            ...response,
           },
         };
       } else {
         // Si hay un error, devuelve detalles del error
-        console.log(`Token WS: ${transbankTokenWs}`);
-        console.log("Respuesta de Transbank:", response);
-
+        console.log("Autorización de pago fallida", response);
         return {
           error: "Autorización fallida",
           code: response.response_code.toString(),
@@ -232,7 +241,10 @@ class WebPayPaymentProcessor extends AbstractPaymentProcessor {
         };
       }
     } catch (error) {
-      console.error("Error al autorizar el pago con Transbank:", error);
+      console.error(
+        "Error al intentar autorizar el pago con Transbank:",
+        error
+      );
       return this.buildError("Error authorizing payment with Transbank", error);
     }
   }
