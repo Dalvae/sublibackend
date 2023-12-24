@@ -193,12 +193,9 @@ class WebPayPaymentProcessor extends AbstractPaymentProcessor {
   > {
     console.log("Iniciando proceso de autorización de pago");
 
-    // Obtiene el token_ws de paymentSessionData
     const transbankTokenWs = paymentSessionData.transbankTokenWs as string;
-    const originalTransbankToken = paymentSessionData.transbankToken as string;
 
     console.log(`Token WS recibido: ${transbankTokenWs}`);
-    console.log(`Token Original: ${originalTransbankToken}`);
 
     if (!transbankTokenWs) {
       console.error("Token ws de Transbank no proporcionado");
@@ -207,34 +204,37 @@ class WebPayPaymentProcessor extends AbstractPaymentProcessor {
       };
     }
 
-    if (transbankTokenWs !== originalTransbankToken) {
-      console.log(`Inconsistencia de Token detectada: 
-      Token WS: ${transbankTokenWs}
-      Token Original: ${originalTransbankToken}`);
-    }
     try {
       const tx = new WebpayPlus.Transaction(this.webpayOptions);
-
-      // Registro del cuerpo de la solicitud
       console.log("Cuerpo de la solicitud a Transbank:", transbankTokenWs);
 
       let response;
       try {
         response = await tx.commit(transbankTokenWs);
+        console.log(`Respuesta recibida de Transbank:`, response);
+
+        if (response.status === "AUTHORIZED" && response.response_code === 0) {
+          return {
+            status: PaymentSessionStatus.AUTHORIZED,
+            data: { ...response },
+          };
+        } else {
+          return {
+            error: "Autorización fallida",
+            code: response.response_code.toString(),
+            detail: response,
+          };
+        }
       } catch (err) {
         console.error("Error durante tx.commit en Transbank:", err);
-        // Si el error tiene un cuerpo de respuesta, también regístralo
         if (err.response) {
           console.error(
             "Cuerpo de la respuesta de error de Transbank:",
             err.response.data
           );
         }
-        throw err; // Lanza de nuevo el error para manejarlo en el catch exterior
+        throw this.buildError("Error authorizing payment with Transbank", err);
       }
-
-      console.log(`Respuesta recibida de Transbank:`, response);
-      // ... (resto del manejo de la respuesta)
     } catch (error) {
       console.error(
         "Error al intentar autorizar el pago con Transbank:",
