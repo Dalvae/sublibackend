@@ -210,8 +210,8 @@ class WebPayPaymentProcessor extends AbstractPaymentProcessor {
     try {
       const tx = new WebpayPlus.Transaction(this.webpayOptions);
       const response = await tx.commit(transbankTokenWs);
-      console.log(transbankTokenWs);
-
+      console.log(`Token WS: ${transbankTokenWs}`);
+      console.log(response);
       if (response.response_code === 0) {
         // Si la respuesta es exitosa y el código de respuesta es 0, autoriza el pago
         return {
@@ -222,7 +222,9 @@ class WebPayPaymentProcessor extends AbstractPaymentProcessor {
         };
       } else {
         // Si hay un error, devuelve detalles del error
-        console.log(response);
+        console.log(`Token WS: ${transbankTokenWs}`);
+        console.log("Respuesta de Transbank:", response);
+
         return {
           error: "Autorización fallida",
           code: response.response_code.toString(),
