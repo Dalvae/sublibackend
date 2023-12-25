@@ -80,6 +80,7 @@ class WebPayPaymentProcessor extends AbstractPaymentProcessor {
         transbankToken: transbankResponse.token,
         redirectUrl: transbankResponse.url,
         buyOrder: buyOrder,
+        originalAmount: context.amount,
         // Otros datos relevantes...
       };
 
@@ -163,16 +164,16 @@ class WebPayPaymentProcessor extends AbstractPaymentProcessor {
     context: PaymentProcessorContext
   ): Promise<void | PaymentProcessorError | PaymentProcessorSessionResponse> {
     // Obtener el monto actual de la sesión de pago
-    const currentAmount = context.paymentSessionData.amount;
+    const originalAmount = context.paymentSessionData.originalAmount;
     // Obtener el nuevo monto desde el contexto
     const newAmount = context.amount;
 
     // Registrar ambos montos para pruebas
-    console.log("Monto actual:", currentAmount);
+    console.log("Monto actual:", originalAmount);
     console.log("Nuevo monto:", newAmount);
 
     // Verificar si el monto ha cambiado
-    if (currentAmount !== newAmount) {
+    if (originalAmount !== newAmount) {
       console.log("El monto ha cambiado. Creando nueva transacción...");
 
       // El monto ha cambiado, crear una nueva transacción en Transbank
@@ -193,6 +194,7 @@ class WebPayPaymentProcessor extends AbstractPaymentProcessor {
           transbankToken: transbankResponse.token,
           redirectUrl: transbankResponse.url,
           buyOrder: buyOrder,
+          originalAmount: newAmount,
           // Otros datos relevantes...
         };
 
