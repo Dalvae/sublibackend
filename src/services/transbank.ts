@@ -162,9 +162,57 @@ class WebPayPaymentProcessor extends AbstractPaymentProcessor {
   async updatePayment(
     context: PaymentProcessorContext
   ): Promise<void | PaymentProcessorError | PaymentProcessorSessionResponse> {
-    // Simplemente devuelve los datos actuales de la sesión de pago
-    // Aquí puedes agregar lógica adicional si es necesario, como verificar si el monto ha cambiado
-    // y manejar ese caso de forma adecuada.
+    // Obtener el monto actual de la sesión de pago
+    const currentAmount = context.paymentSessionData.amount;
+    // Obtener el nuevo monto desde el contexto
+    const newAmount = context.amount;
+
+    // Registrar ambos montos para pruebas
+    console.log("Monto actual:", currentAmount);
+    console.log("Nuevo monto:", newAmount);
+
+    // Verificar si el monto ha cambiado
+    if (currentAmount !== newAmount) {
+      console.log("El monto ha cambiado. Creando nueva transacción...");
+
+      // El monto ha cambiado, crear una nueva transacción en Transbank
+      const tx = new WebpayPlus.Transaction(this.webpayOptions);
+
+      try {
+        const buyOrder = uuidv4().replace(/-/g, "").substring(0, 26);
+        console.log("Nuevo Buy Order generado:", buyOrder);
+
+        const transbankResponse = await tx.create(
+          buyOrder, // Nuevo buyOrder
+          context.resource_id, // sessionId, posiblemente el ID del carrito
+          newAmount, // Nuevo monto
+          `https://www.sublimahyca.cl/checkout` // URL de retorno
+        );
+
+        const session_data = {
+          transbankToken: transbankResponse.token,
+          redirectUrl: transbankResponse.url,
+          buyOrder: buyOrder,
+          // Otros datos relevantes...
+        };
+
+        console.log("Nueva sesión de pago creada con éxito:", session_data);
+
+        return {
+          session_data,
+          update_requests: {}, // Actualizaciones requeridas, si las hay
+        };
+      } catch (error) {
+        console.error("Error al actualizar el pago con Transbank:", error);
+        throw this.buildError("Error actualizando pago con Transbank", error);
+      }
+    } else {
+      console.log(
+        "El monto no ha cambiado. No se requiere crear una nueva transacción."
+      );
+    }
+
+    // Si no hay cambios en el monto, simplemente devuelve los datos actuales
     return {
       session_data: context.paymentSessionData,
     };
