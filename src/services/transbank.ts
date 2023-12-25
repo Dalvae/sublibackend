@@ -249,13 +249,23 @@ class WebPayPaymentProcessor extends AbstractPaymentProcessor {
     const transbankToken = paymentSessionData.transbankToken as string;
     const authorizationCode = paymentSessionData.authorizationCode as string;
     const buyOrder = paymentSessionData.buyOrder as string;
-    const captureAmount = paymentSessionData.amount as number; // Asegúrate de que este valor esté disponible y sea correcto
+    const captureAmount = paymentSessionData.amount as number;
 
     if (!transbankToken || !authorizationCode || !buyOrder) {
+      console.log(
+        "Datos faltantes para la captura del pago:",
+        paymentSessionData
+      );
       return { error: "Faltan datos necesarios para la captura del pago" };
     }
 
     try {
+      console.log("Iniciando captura de pago:", {
+        transbankToken,
+        buyOrder,
+        authorizationCode,
+        captureAmount,
+      });
       const tx = new WebpayPlus.Transaction(this.webpayOptions);
       const response = await tx.capture(
         transbankToken,
@@ -264,6 +274,7 @@ class WebPayPaymentProcessor extends AbstractPaymentProcessor {
         captureAmount
       );
 
+      console.log("Respuesta de captura de pago:", response);
       return {
         authorization_code: response.authorization_code,
         authorization_date: response.authorization_date,
