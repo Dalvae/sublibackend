@@ -115,9 +115,11 @@ class WebPayPaymentProcessor extends AbstractPaymentProcessor {
 
     try {
       const tx = new WebpayPlus.Transaction(this.webpayOptions);
-      const response = await tx.status(transbankToken); // Asegúrate de que aquí también estés usando transbankTokenWs
-
-      return response;
+      const response = await tx.status(transbankToken);
+      return {
+        ...paymentSessionData, // Preserva los datos existentes
+        ...response, // Añade los nuevos datos de la respuesta
+      };
     } catch (error) {
       console.error("Error al recuperar el pago con Transbank:", error);
       throw this.buildError("Error recuperando pago con Transbank", error);
