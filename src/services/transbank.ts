@@ -127,13 +127,13 @@ class WebPayPaymentProcessor extends AbstractPaymentProcessor {
   async getPaymentStatus(
     sessionData: Record<string, unknown>
   ): Promise<PaymentSessionStatus> {
-    const transbankTokenWs = sessionData.transbankTokenWs as string;
-    if (!transbankTokenWs) {
-      throw { error: "No Transbank token provided in session data" };
+    const transbankToken = sessionData.transbankToken as string;
+    if (!transbankToken) {
+      throw { error: "No Transbank token provided in session dataxx" };
     }
 
     try {
-      console.log(transbankTokenWs);
+      console.log(transbankToken);
       const tx = new WebpayPlus.Transaction(this.webpayOptions);
       const response = await tx.status(transbankTokenWs);
 
