@@ -135,7 +135,7 @@ class WebPayPaymentProcessor extends AbstractPaymentProcessor {
     try {
       console.log(transbankToken);
       const tx = new WebpayPlus.Transaction(this.webpayOptions);
-      const response = await tx.status(transbankTokenWs);
+      const response = await tx.status(transbankToken);
 
       // Mapeo de los estados de Transbank a los estados de Medusa
       switch (response.status) {
