@@ -99,27 +99,25 @@ class WebPayPaymentProcessor extends AbstractPaymentProcessor {
     paymentSessionData: Record<string, unknown>
   ): Promise<Record<string, unknown> | PaymentProcessorError> {
     // Verificar si el token de Transbank está presente
-    const transbankTokenWs = paymentSessionData.transbankTokenWs as string;
+    const transbankToken = paymentSessionData.transbankToken as string;
     console.log("Payment Session Datssa:", paymentSessionData);
 
     // Comprueba si el token existe y es una cadena no vacía
-    if (!transbankTokenWs) {
-      console.error(
-        "Error: No Transbank token provided in payment session data RETRIEVEPAYMENT FUNC"
-      );
-      return {
-        error:
-          "No Transbank token provided in payment session data RETRIEVEPAYMENT FUNC",
-      };
-    }
+    // if (!transbankTokenWs) {
+    //   console.error(
+    //     "Error: No Transbank token provided in payment session data RETRIEVEPAYMENT FUNC"
+    //   );
+    //   return {
+    //     error:
+    //       "No Transbank token provided in payment session data RETRIEVEPAYMENT FUNC",
+    //   };
+    // }
 
     try {
       const tx = new WebpayPlus.Transaction(this.webpayOptions);
-      const response = await tx.status(transbankTokenWs); // Asegúrate de que aquí también estés usando transbankTokenWs
+      const response = await tx.status(transbankToken); // Asegúrate de que aquí también estés usando transbankTokenWs
 
-      return {
-        status: response.status,
-      };
+      return response;
     } catch (error) {
       console.error("Error al recuperar el pago con Transbank:", error);
       throw this.buildError("Error recuperando pago con Transbank", error);
