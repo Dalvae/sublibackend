@@ -100,9 +100,10 @@ class WebPayPaymentProcessor extends AbstractPaymentProcessor {
   ): Promise<Record<string, unknown> | PaymentProcessorError> {
     // Verificar si el token de Transbank está presente
     const transbankTokenWs = paymentSessionData.transbankTokenWs as string;
+    console.log("Payment Session Data:", paymentSessionData);
 
     // Comprueba si el token existe y es una cadena no vacía
-    if (!transbankTokenWs || typeof transbankTokenWs !== "string") {
+    if (!transbankTokenWs) {
       console.error(
         "Error: No Transbank token provided in payment session data RETRIEVEPAYMENT FUNC"
       );
