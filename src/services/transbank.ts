@@ -100,7 +100,7 @@ class WebPayPaymentProcessor extends AbstractPaymentProcessor {
   ): Promise<Record<string, unknown> | PaymentProcessorError> {
     // Verificar si el token de Transbank está presente
     const transbankTokenWs = paymentSessionData.transbankTokenWs as string;
-    console.log("Payment Session Data:", paymentSessionData);
+    console.log("Payment Session Datssa:", paymentSessionData);
 
     // Comprueba si el token existe y es una cadena no vacía
     if (!transbankTokenWs) {
@@ -217,7 +217,7 @@ class WebPayPaymentProcessor extends AbstractPaymentProcessor {
         if (response.status === "AUTHORIZED" && response.response_code === 0) {
           return {
             status: PaymentSessionStatus.AUTHORIZED,
-            data: { ...response },
+            data: { ...paymentSessionData, ...response },
           };
         } else {
           return {
