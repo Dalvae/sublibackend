@@ -130,21 +130,15 @@ class WebPayPaymentProcessor extends AbstractPaymentProcessor {
     console.log("Session Data del paymentstatus:", sessionData);
     console.log("Type of sessionData:", typeof sessionData);
     console.log("Keys in sessionData:", Object.keys(sessionData));
-    const transbankToken = sessionData.transbankToken
-      ? (sessionData.transbankToken as string)
-      : null;
+    const status = sessionData.status ? (sessionData.status as string) : null;
     // const transbankToken = sessionData.transbankToken as string;
     // if (!transbankToken) {
     //   throw { error: "No Transbank token provided in session dataxx" };
     // }
 
     try {
-      console.log(transbankToken);
-      const tx = new WebpayPlus.Transaction(this.webpayOptions);
-      const response = await tx.status(transbankToken);
-
       // Mapeo de los estados de Transbank a los estados de Medusa
-      switch (response.status) {
+      switch (status) {
         case "AUTHORIZED":
           return PaymentSessionStatus.AUTHORIZED;
         case "FAILED":
