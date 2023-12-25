@@ -249,8 +249,8 @@ class WebPayPaymentProcessor extends AbstractPaymentProcessor {
     paymentSessionData: Record<string, unknown>
   ): Promise<Record<string, unknown> | PaymentProcessorError> {
     const transbankToken = paymentSessionData.transbankToken as string;
-    const authorizationCode = paymentSessionData.authorizationCode as string;
-    const buyOrder = paymentSessionData.buyOrder as string;
+    const authorizationCode = paymentSessionData.authorization_code as string;
+    const buyOrder = paymentSessionData.buy_order as string;
     const captureAmount = paymentSessionData.amount as number;
 
     if (!transbankToken || !authorizationCode || !buyOrder) {
