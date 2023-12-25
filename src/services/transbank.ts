@@ -301,7 +301,7 @@ class WebPayPaymentProcessor extends AbstractPaymentProcessor {
     const transbankToken = paymentSessionData.transbankToken as string;
     const authorizationCode = paymentSessionData.authorization_code as string;
     const buyOrder = paymentSessionData.buy_order as string;
-    const captureAmount = paymentSessionData.amount as number;
+    let captureAmount = paymentSessionData.amount as number;
 
     if (!transbankToken || !authorizationCode || !buyOrder) {
       console.log(
@@ -310,6 +310,7 @@ class WebPayPaymentProcessor extends AbstractPaymentProcessor {
       );
       return { error: "Faltan datos necesarios para la captura del pago" };
     }
+    captureAmount = parseFloat(captureAmount.toFixed(2));
 
     try {
       console.log("Iniciando captura de pago:", {
