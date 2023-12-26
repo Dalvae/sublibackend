@@ -172,52 +172,38 @@ class WebPayPaymentProcessor extends AbstractPaymentProcessor {
     console.log("Monto actual:", originalAmount);
     console.log("Nuevo monto:", newAmount);
 
-    // Verificar si el monto ha cambiado
-    if (originalAmount !== newAmount) {
-      console.log("El monto ha cambiado. Creando nueva transacción...");
+    // Generar siempre un nuevo buyOrder
+    const buyOrder = uuidv4().replace(/-/g, "").substring(0, 26);
+    console.log("Nuevo Buy Order generado:", buyOrder);
 
-      // El monto ha cambiado, crear una nueva transacción en Transbank
+    try {
       const tx = new WebpayPlus.Transaction(this.webpayOptions);
 
-      try {
-        const buyOrder = uuidv4().replace(/-/g, "").substring(0, 26);
-        console.log("Nuevo Buy Order generado:", buyOrder);
-
-        const transbankResponse = await tx.create(
-          buyOrder, // Nuevo buyOrder
-          context.resource_id, // sessionId, posiblemente el ID del carrito
-          newAmount, // Nuevo monto
-          `https://www.sublimahyca.cl/checkout` // URL de retorno
-        );
-
-        const session_data = {
-          transbankToken: transbankResponse.token,
-          redirectUrl: transbankResponse.url,
-          buyOrder: buyOrder,
-          originalAmount: newAmount,
-          // Otros datos relevantes...
-        };
-
-        console.log("Nueva sesión de pago creada con éxito:", session_data);
-
-        return {
-          session_data,
-          update_requests: {}, // Actualizaciones requeridas, si las hay
-        };
-      } catch (error) {
-        console.error("Error al actualizar el pago con Transbank:", error);
-        throw this.buildError("Error actualizando pago con Transbank", error);
-      }
-    } else {
-      console.log(
-        "El monto no ha cambiado. No se requiere crear una nueva transacción."
+      const transbankResponse = await tx.create(
+        buyOrder, // Nuevo buyOrder
+        context.resource_id, // sessionId, posiblemente el ID del carrito
+        newAmount, // Nuevo monto
+        `https://www.sublimahyca.cl/checkout` // URL de retorno
       );
-    }
 
-    // Si no hay cambios en el monto, simplemente devuelve los datos actuales
-    return {
-      session_data: context.paymentSessionData,
-    };
+      const session_data = {
+        transbankToken: transbankResponse.token,
+        redirectUrl: transbankResponse.url,
+        buyOrder: buyOrder,
+        originalAmount: newAmount,
+        // Otros datos relevantes...
+      };
+
+      console.log("Nueva sesión de pago creada con éxito:", session_data);
+
+      return {
+        session_data,
+        update_requests: {}, // Actualizaciones requeridas, si las hay
+      };
+    } catch (error) {
+      console.error("Error al actualizar el pago con Transbank:", error);
+      throw this.buildError("Error actualizando pago con Transbank", error);
+    }
   }
 
   async updatePaymentData(
