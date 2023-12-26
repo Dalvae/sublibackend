@@ -159,7 +159,6 @@ class WebPayPaymentProcessor extends AbstractPaymentProcessor {
       throw this.buildError("Error retrieving payment status", error);
     }
   }
-
   async updatePayment(
     context: PaymentProcessorContext
   ): Promise<void | PaymentProcessorError | PaymentProcessorSessionResponse> {
@@ -172,37 +171,48 @@ class WebPayPaymentProcessor extends AbstractPaymentProcessor {
     console.log("Monto actual:", originalAmount);
     console.log("Nuevo monto:", newAmount);
 
-    // Generar siempre un nuevo buyOrder
-    const buyOrder = uuidv4().replace(/-/g, "").substring(0, 26);
-    console.log("Nuevo Buy Order generado:", buyOrder);
+    // Verificar si el monto ha cambiado
+    if (originalAmount !== newAmount) {
+      // Si el monto ha cambiado, generar un nuevo buyOrder
+      const buyOrder = uuidv4().replace(/-/g, "").substring(0, 26);
+      console.log("Nuevo Buy Order generado:", buyOrder);
 
-    try {
-      const tx = new WebpayPlus.Transaction(this.webpayOptions);
+      try {
+        const tx = new WebpayPlus.Transaction(this.webpayOptions);
 
-      const transbankResponse = await tx.create(
-        buyOrder, // Nuevo buyOrder
-        context.resource_id, // sessionId, posiblemente el ID del carrito
-        newAmount, // Nuevo monto
-        `https://www.sublimahyca.cl/checkout` // URL de retorno
+        const transbankResponse = await tx.create(
+          buyOrder, // Nuevo buyOrder
+          context.resource_id, // sessionId, posiblemente el ID del carrito
+          newAmount, // Nuevo monto
+          `https://www.sublimahyca.cl/checkout` // URL de retorno
+        );
+
+        const session_data = {
+          transbankToken: transbankResponse.token,
+          redirectUrl: transbankResponse.url,
+          buyOrder: buyOrder,
+          originalAmount: newAmount,
+          // Otros datos relevantes...
+        };
+
+        console.log("Nueva sesión de pago creada con éxito:", session_data);
+
+        return {
+          session_data,
+          update_requests: {}, // Actualizaciones requeridas, si las hay
+        };
+      } catch (error) {
+        console.error("Error al actualizar el pago con Transbank:", error);
+        throw this.buildError("Error actualizando pago con Transbank", error);
+      }
+    } else {
+      console.log(
+        "El monto no ha cambiado. No se requiere crear una nueva transacción."
       );
-
-      const session_data = {
-        transbankToken: transbankResponse.token,
-        redirectUrl: transbankResponse.url,
-        buyOrder: buyOrder,
-        originalAmount: newAmount,
-        // Otros datos relevantes...
-      };
-
-      console.log("Nueva sesión de pago creada con éxito:", session_data);
-
+      // Si no hay cambios en el monto, simplemente devuelve los datos actuales
       return {
-        session_data,
-        update_requests: {}, // Actualizaciones requeridas, si las hay
+        session_data: context.paymentSessionData,
       };
-    } catch (error) {
-      console.error("Error al actualizar el pago con Transbank:", error);
-      throw this.buildError("Error actualizando pago con Transbank", error);
     }
   }
 
@@ -297,7 +307,7 @@ class WebPayPaymentProcessor extends AbstractPaymentProcessor {
       return { error: "Faltan datos necesarios para la captura del pago" };
     }
     captureAmount = captureAmount.toFixed(2);
-
+    // parseFloat(transbankData.token).toFixed(2);
     try {
       console.log("Iniciando captura de pago:", {
         transbankToken,
