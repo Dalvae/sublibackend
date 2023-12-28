@@ -44,8 +44,8 @@
     "medusa-payment-manual": "^1.0.24",
     "medusa-plugin-auth": "^1.8.1",
     "prism-react-renderer": "^2.0.4",
-    "typeorm": "^0.3.16",
     "transbank-sdk": "4.0.0",
+    "typeorm": "^0.3.16",
     "uuid": "^9.0.1"
   },
   "devDependencies": {
@@ -56,6 +56,7 @@
     "@types/express": "^4.17.13",
     "@types/jest": "^27.4.0",
     "@types/node": "^17.0.8",
+    "@types/uuid": "^9.0.7",
     "babel-preset-medusa-package": "^1.1.19",
     "cross-env": "^7.0.3",
     "eslint": "^6.8.0",
