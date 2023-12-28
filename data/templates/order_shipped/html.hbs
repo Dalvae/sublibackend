@@ -7,7 +7,7 @@
     </style>
 </head>
 <body>
-  <h1>¡Hola {{billing_address.first_name}} {{billing_address.last_name}}!</h1>
+    <h1>¡Hola {{#if billing_address}}{{billing_address.first_name}} {{billing_address.last_name}}{{/if}}!</h1>
     <p>Tu pedido ha sido enviado. Aquí tienes los detalles de tu envío.</p>
 
     <h2>Resumen de tu Pedido:</h2>
@@ -19,18 +19,20 @@
 
     <h3>Dirección de Envío:</h3>
     <p>
+        {{#if order.shipping_address}}
         {{order.shipping_address.first_name}} {{order.shipping_address.last_name}}<br>
         {{order.shipping_address.address_1}}<br>
         {{#if order.shipping_address.address_2}}{{order.shipping_address.address_2}}<br>{{/if}}
         {{order.shipping_address.city}}, {{order.shipping_address.province}}<br>
         {{order.shipping_address.postal_code}}, {{order.shipping_address.country_code}}
+        {{/if}}
     </p>
 
-    <p>Número de Pedido: {{order.display_id}}</p>
-    <p>Total: {{order.total}}</p>
+    <p>Número de Pedido: {{#if order.display_id}}{{order.display_id}}{{/if}}</p>
+    <p>Total: {{#if order.total}}{{order.total}}{{/if}}</p>
 
     <h3>Información de Seguimiento:</h3>
-    <p>Tu número de seguimiento es: <strong>{{tracking_number}}</strong></p>
+    <p>Tu número de seguimiento es: <strong>{{#if order.fullfillments.[0].tracking_links.[0].tracking_number}}{{order.fullfillments.[0].tracking_links.[0].tracking_number}}{{/if}}</strong></p>
     <p>Puedes hacer seguimiento de tu envío en <a href="https://www.starken.cl/">Starken.cl</a> ingresando tu número de seguimiento.</p>
 </body>
 </html>

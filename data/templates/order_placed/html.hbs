@@ -7,7 +7,7 @@
     </style>
 </head>
 <body>
-    <h1>¡Hola {{billing_address.first_name}} {{billing_address.last_name}}!</h1>
+    <h1>¡Hola {{#if order.billing_address}}{{order.billing_address.first_name}} {{order.billing_address.last_name}}{{/if}}!</h1>
     <p>Muchas gracias por tu compra. Cuando enviemos el producto te tendremos informado.</p>
 
     <h2>Resumen de tu Pedido:</h2>
@@ -19,14 +19,16 @@
 
     <h3>Dirección de Envío:</h3>
     <p>
+        {{#if order.shipping_address}}
         {{order.shipping_address.first_name}} {{order.shipping_address.last_name}}<br>
         {{order.shipping_address.address_1}}<br>
         {{#if order.shipping_address.address_2}}{{order.shipping_address.address_2}}<br>{{/if}}
         {{order.shipping_address.city}}, {{order.shipping_address.province}}<br>
         {{order.shipping_address.postal_code}}, {{order.shipping_address.country_code}}
+        {{/if}}
     </p>
 
-    <p>Número de Pedido: {{order.display_id}}</p>
+    <p>Número de Pedido: {{order.id}}</p>
 
     <p>Total: {{order.total}}</p>
 </body>
