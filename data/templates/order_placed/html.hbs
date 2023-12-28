@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Confirmación de Pedido</title>
+    <style>
+        /* Tus estilos CSS aquí */
+    </style>
+</head>
+<body>
+    <h1>¡Hola {{order.customer.first_name}}!</h1>
+    <p>Muchas gracias por tu compra. Cuando enviemos el producto te tendremos informado.</p>
+
+    <h2>Resumen de tu Pedido:</h2>
+    <ul>
+        {{#each order.items}}
+        <li>{{quantity}} x {{title}} - {{price}}</li>
+        {{/each}}
+    </ul>
+
+    <h3>Dirección de Envío:</h3>
+    <p>
+        {{order.shipping_address.first_name}} {{order.shipping_address.last_name}}<br>
+        {{order.shipping_address.address_1}}<br>
+        {{#if order.shipping_address.address_2}}{{order.shipping_address.address_2}}<br>{{/if}}
+        {{order.shipping_address.city}}, {{order.shipping_address.province}}<br>
+        {{order.shipping_address.postal_code}}, {{order.shipping_address.country_code}}
+    </p>
+
+    <p>Número de Pedido: {{order.display_id}}</p>
+
+    <p>Total: {{order.total}}</p>
+</body>
+</html>
