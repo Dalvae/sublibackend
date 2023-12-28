@@ -122,7 +122,7 @@ const plugins = [
     options: {
       api_key: process.env.RESEND_API_ID,
       from: process.env.SES_FROM,
-      template_path: "data/templates",
+      template_path: process.env.SES_TEMPLATE_PATH,
       subject_template_type: "handlebars",
       body_template_type: "handlebars",
       order_placed_template: "order_placed",
