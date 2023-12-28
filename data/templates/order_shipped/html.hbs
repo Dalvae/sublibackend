@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Confirmación de Pedido</title>
+    <title>Confirmación de Envío de Pedido</title>
     <style>
         /* Tus estilos CSS aquí */
     </style>
 </head>
 <body>
     <h1>¡Hola {{order.customer.first_name}}!</h1>
-    <p>Muchas gracias por tu compra. Cuando enviemos el producto te tendremos informado.</p>
+    <p>Tu pedido ha sido enviado. Aquí tienes los detalles de tu envío.</p>
 
     <h2>Resumen de tu Pedido:</h2>
     <ul>
@@ -27,7 +27,10 @@
     </p>
 
     <p>Número de Pedido: {{order.display_id}}</p>
-
     <p>Total: {{order.total}}</p>
+
+    <h3>Información de Seguimiento:</h3>
+    <p>Tu número de seguimiento es: <strong>{{tracking_number}}</strong></p>
+    <p>Puedes hacer seguimiento de tu envío en <a href="https://www.starken.cl/">Starken.cl</a> ingresando tu número de seguimiento.</p>
 </body>
 </html>
