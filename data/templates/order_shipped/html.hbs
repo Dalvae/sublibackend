@@ -81,6 +81,9 @@
           </ul>
           Tracking Numbers:
           <ul>
+    <p>a{{fulfillments.[0].tracking_links.[0].tracking_number}}</p>
+    b{{fulfillments.tracking_links.[0].tracking_number}}
+    c {{tracking_links.[0].tracking_number}}</p>
             {{#each this.tracking_links}}
               <li>
                 Tracking Number: {{this.tracking_number}}
@@ -90,7 +93,7 @@
             {{/each}}
           </ul>
           
-    <p>{{fulfillments.[0].tracking_links.[0].tracking_number}}</p>
+
            <ul>
   {{#each fulfillment.tracking_links as |tracking_link|}}
     <li>
