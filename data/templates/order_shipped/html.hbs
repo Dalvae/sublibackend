@@ -1,49 +1,250 @@
-<html>
-  <head>
-    <title>Confirmación de Envío de Pedido</title>
-    <style>
-      /* Tus estilos CSS aquí */
-    </style>
-  </head>
-  <body>
-    <h1>¡Hola
-      {{shipping_address.first_name}}
-      {{shipping_address.last_name}}!</h1>
-    <p>Tu pedido ha sido enviado. Aquí tienes los detalles de tu envío.</p>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+<html dir="ltr" lang="en">
 
-    <h2>Resumen de tu Pedido:</h2>
-    <ul>
-      {{#each order.items}}
-        <li>{{quantity}} x {{title}} - {{price}}</li>
-      {{/each}}
-    </ul>
+  <head></head>
+  <div
+    style="display:none;overflow:hidden;line-height:1px;opacity:0;max-height:0;max-width:0"
+  >Tú pedido ya va en camino<div>
+    </div>
+  </div>
 
-    <h3>Dirección de Envío:</h3>
-    <p>
-      {{#if order.shipping_address}}
-        {{order.shipping_address.first_name}}
-        {{order.shipping_address.last_name}}<br />
-        {{order.shipping_address.address_1}}<br />
-        {{#if
-          order.shipping_address.address_2
-        }}{{order.shipping_address.address_2}}<br />{{/if}}
-        {{order.shipping_address.city}},
-        {{order.shipping_address.province}}<br />
-        {{order.shipping_address.postal_code}},
-        {{order.shipping_address.country_code}}
-      {{/if}}
-    </p>
-
-    <p>Número de Pedido: {{#if order.display_id}}{{order.display_id}}{{/if}}</p>
-    <p>Total: {{#if order.total}}{{order.total}}{{/if}}</p>
-
-    <h3>Información de Seguimiento:</h3>
-    <p>Tu número de seguimiento es:
-      <strong>{{#if
-          order.fullfillments.0.tracking_links.0.tracking_number
-        }}{{order.fullfillments.0.tracking_links.0.tracking_number}}{{/if}}</strong></p>
-    <p>Puedes hacer seguimiento de tu envío en
-      <a href="https://www.starken.cl/">Starken.cl</a>
-      ingresando tu número de seguimiento.</p>
+  <body
+    style="background-color:#e96d7b;font-family:-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,Roboto,&quot;Helvetica Neue&quot;,Ubuntu,sans-serif"
+  >
+    <table
+      align="center"
+      width="100%"
+      border="0"
+      cellPadding="0"
+      cellSpacing="0"
+      role="presentation"
+      style="max-width:37.5em;background-color:#ffffff;margin:0 auto;padding:20px 0 48px;margin-bottom:64px"
+    >
+      <tbody>
+        <tr style="width:100%">
+          <td>
+            <table
+              align="center"
+              width="100%"
+              border="0"
+              cellPadding="0"
+              cellSpacing="0"
+              role="presentation"
+              style="padding:0 48px"
+            >
+              <tbody>
+                <tr>
+                  <td>
+                    <div
+                      style="display:flex;padding-left:0.5rem;align-content:center;align-items:center"
+                    ><img
+                        alt="Logo"
+                        height="30"
+                        src="https://raw.githubusercontent.com/Dalvae/sublistorefront/main/public/logo.png"
+                        style="display:block;outline:none;border:none;text-decoration:none"
+                        width="120"
+                      /></div>
+                    <hr
+                      style="width:100%;border:none;border-top:1px solid #eaeaea;border-color:#e6ebf1;margin:20px 0"
+                    />
+                    <p
+                      style="font-size:16px;line-height:24px;margin:16px 0;color:rgb(51,51,51);text-align:left"
+                    >¡Hola &#x27;&#x27;shipping_addres.name&#x27;&#x27;
+                      &#x27;&#x27;s</p>
+                    <p
+                      style="font-size:16px;line-height:24px;margin:16px 0;color:rgb(51,51,51);text-align:left"
+                    >Buenas noticias, tú pedido esta en camino</p><a
+                      href="https://www.starken.cl/&#x27;&#x27;pedido&#x27;&#x27;"
+                      style="background-color:#656ee8;border-radius:5px;color:#fff;font-size:16px;font-weight:bold;text-decoration:none;text-align:center;display:inline-block;width:100%;padding:10px 10px 10px 10px;line-height:100%;max-width:100%"
+                      target="_blank"
+                    ><span
+                      ><!--[if mso]><i style="letter-spacing: 10px;mso-font-width:-100%;mso-text-raise:15" hidden>&nbsp;</i><![endif]--></span><span
+                        style="max-width:100%;display:inline-block;line-height:120%;mso-padding-alt:0px;mso-text-raise:7.5px"
+                      >Hacer seguimiento de tu pedido</span><span
+                      ><!--[if mso]><i style="letter-spacing: 10px;mso-font-width:-100%" hidden>&nbsp;</i><![endif]--></span></a>
+                    <hr
+                      style="width:100%;border:none;border-top:1px solid #eaeaea;border-color:#e6ebf1;margin:20px 0"
+                    />
+                    <table
+                      align="center"
+                      width="100%"
+                      border="0"
+                      cellPadding="0"
+                      cellSpacing="0"
+                      role="presentation"
+                      style="border-collapse:collapse;border-spacing:0px;color:rgb(51,51,51);background-color:rgb(250,250,250);border-radius:3px;font-size:12px"
+                    >
+                      <tbody>
+                        <tr>
+                          <td>
+                            <table
+                              align="center"
+                              width="100%"
+                              border="0"
+                              cellPadding="0"
+                              cellSpacing="0"
+                              role="presentation"
+                              style="height:46px"
+                            >
+                              <tbody style="width:100%">
+                                <tr style="width:100%">
+                                  <td
+                                    colSpan="2"
+                                    data-id="__react-email-column"
+                                  >
+                                    <table
+                                      align="center"
+                                      width="100%"
+                                      border="0"
+                                      cellPadding="0"
+                                      cellSpacing="0"
+                                      role="presentation"
+                                    >
+                                      <tbody style="width:100%">
+                                        <tr style="width:100%">
+                                          <td
+                                            data-id="__react-email-column"
+                                            style="padding-left:20px;border-style:solid;border-color:white;border-width:0px 1px 1px 0px;height:44px"
+                                          >
+                                            <p
+                                              style="font-size:10px;line-height:1.4;margin:0;padding:0;color:rgb(102,102,102)"
+                                            >Email</p><a
+                                              style="color:#15c;text-decoration:underline;font-size:12px;margin:0;padding:0;line-height:1.4"
+                                              target="_blank"
+                                            >zeno.rocha@gmail.com</a>
+                                          </td>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                    <table
+                                      align="center"
+                                      width="100%"
+                                      border="0"
+                                      cellPadding="0"
+                                      cellSpacing="0"
+                                      role="presentation"
+                                    >
+                                      <tbody style="width:100%">
+                                        <tr style="width:100%">
+                                          <td
+                                            data-id="__react-email-column"
+                                            style="padding-left:20px;border-style:solid;border-color:white;border-width:0px 1px 1px 0px;height:44px"
+                                          >
+                                            <p
+                                              style="font-size:10px;line-height:1.4;margin:0;padding:0;color:rgb(102,102,102)"
+                                            >Fecha de envio</p>
+                                            <p
+                                              style="font-size:12px;line-height:1.4;margin:0;padding:0"
+                                            >18 Jan 2023</p>
+                                          </td>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                    <table
+                                      align="center"
+                                      width="100%"
+                                      border="0"
+                                      cellPadding="0"
+                                      cellSpacing="0"
+                                      role="presentation"
+                                    >
+                                      <tbody style="width:100%">
+                                        <tr style="width:100%">
+                                          <td
+                                            data-id="__react-email-column"
+                                            style="padding-left:20px;border-style:solid;border-color:white;border-width:0px 1px 1px 0px;height:44px"
+                                          >
+                                            <p
+                                              style="font-size:10px;line-height:1.4;margin:0;padding:0;color:rgb(102,102,102)"
+                                            >Número seguimiento</p><a
+                                              style="color:#15c;text-decoration:underline;font-size:12px;margin:0;padding:0;line-height:1.4"
+                                              target="_blank"
+                                            >ML4F5L8522</a>
+                                          </td>
+                                          <td
+                                            data-id="__react-email-column"
+                                            style="padding-left:20px;border-style:solid;border-color:white;border-width:0px 1px 1px 0px;height:44px"
+                                          >
+                                            <p
+                                              style="font-size:10px;line-height:1.4;margin:0;padding:0;color:rgb(102,102,102)"
+                                            >Tiempo estimado</p>
+                                            <p
+                                              style="font-size:12px;line-height:1.4;margin:0;padding:0"
+                                            >186623754793</p>
+                                          </td>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                  </td>
+                                  <td
+                                    colSpan="2"
+                                    data-id="__react-email-column"
+                                    style="padding-left:20px;border-style:solid;border-color:white;border-width:0px 1px 1px 0px;height:44px"
+                                  >
+                                    <p
+                                      style="font-size:10px;line-height:1.4;margin:0;padding:0;color:rgb(102,102,102)"
+                                    >Enviado a</p>
+                                    <p
+                                      style="font-size:12px;line-height:1.4;margin:0;padding:0"
+                                    >Visa .... 7461 (Apple Pay)</p>
+                                    <p
+                                      style="font-size:12px;line-height:1.4;margin:0;padding:0"
+                                    >Zeno Rocha</p>
+                                    <p
+                                      style="font-size:12px;line-height:1.4;margin:0;padding:0"
+                                    >2125 Chestnut St</p>
+                                    <p
+                                      style="font-size:12px;line-height:1.4;margin:0;padding:0"
+                                    >San Francisco, CA 94123</p>
+                                    <p
+                                      style="font-size:12px;line-height:1.4;margin:0;padding:0"
+                                    >USA</p>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <table
+                      align="center"
+                      width="100%"
+                      border="0"
+                      cellPadding="0"
+                      cellSpacing="0"
+                      role="presentation"
+                      style="border-collapse:collapse;border-spacing:0px;color:rgb(51,51,51);background-color:rgb(250,250,250);border-radius:3px;font-size:12px;margin:30px 0 15px 0;height:24px"
+                    >
+                      <tbody>
+                        <tr>
+                          <td>
+                            <p
+                              style="font-size:14px;line-height:24px;margin:0;background:#fafafa;padding-left:10px;font-weight:500"
+                            >Recordar que los envios de starken son envios por
+                              pagar</p>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <hr
+                      style="width:100%;border:none;border-top:1px solid #eaeaea;border-color:#e6ebf1;margin:20px 0"
+                    />
+                    <p
+                      style="font-size:12px;line-height:16px;margin:16px 0;color:#8898aa"
+                    >Sublimahyca, Casa Blanca, Chile</p><a
+                      href="https://www.sublimahyca.cl/devoluciones"
+                      style="color:#8898aa;text-decoration:none;font-size:12px;line-height:16px"
+                      target="_blank"
+                    >Revisa nuestra politica de devolución</a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </body>
+
 </html>
