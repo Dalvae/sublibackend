@@ -89,8 +89,16 @@
               </li>
             {{/each}}
           </ul>
-          <p>{{fulfillment.tracking_links[0].tracking_number}}</p>
-          <p>{{fulfillment.tracking_links[0].tracking_number}}</p>
+          
+          <p>{{fulfillments[0].tracking_links[0].tracking_number}}</p>
+       <ul>
+  {{#each fulfillment.tracking_links as |tracking_link|}}
+    <li>
+      <!-- Accede a las propiedades de cada elemento en el array -->
+      <p>{{tracking_link.tracking_number}}</p>
+    </li>
+  {{/each}}
+</ul>
         </li>
         {{/each}}
       </ul>
