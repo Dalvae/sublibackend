@@ -81,29 +81,34 @@
           </ul>
           Tracking Numbers:
           <ul>
-   
-                <p> tracking_number[0]: {{tracking_number.[0].}} </p>
-                <p> tracking_links[0].tracking_number: {{tracking_links.[0].tracking_number}} </p>
-                <p> tracking_links[0].tracking_number[0]: {{tracking_links.[0].tracking_number.[0].}} </p>
-                <p> tracking_links[0]: {{tracking_links.[0].}} </p>
-                <p> tracking_numbers[0]: {{tracking_numbers.[0].}} </p>
-                
-                <p> fulfillment.tracking_number[0]: {{fulfillment.tracking_number.[0]}} </p>
-                <p> fulfillment.tracking_links[0].tracking_number: {{fulfillment.tracking_links.[0].tracking_number}} </p>
-                <p> fulfillment.tracking_links[0].tracking_number[0]: {{fulfillment.tracking_links.[0].tracking_number.[0].}} </p>
-                <p> fulfillment.tracking_links[0]: {{fulfillment.tracking_links.[0].}} </p>
-                <p> fulfillment.tracking_numbers[0]: {{fulfillment.tracking_numbers.[0].}} </p>
-                <p> fulfillment.order_id: {{fulfillment.order_id}} </p>
-                
-                <p> order.fulfillments[0].tracking_number[0]: {{order.fulfillments.[0].tracking_number.[0].}} </p>
-                <p> order.fulfillments[0].tracking_links[0].tracking_number: {{order.fulfillments.[0].tracking_links.[0].tracking_number}} </p>
-                <p> order.fulfillments[0].tracking_links[0].tracking_number[0]: {{order.fulfillments.[0].tracking_links.[0].tracking_number.[0].}} </p>
-                <p> order.fulfillments[0].tracking_links[0]: {{order.fulfillments.[0].tracking_links.[0].}} </p>
-                <p> order.fulfillments[0].tracking_numbers[0]: {{order.fulfillments.[0].tracking_numbers.[0].}} </p>
-                <p> order.fulfillments[0].order_id: {{order.fulfillments.[0].id}} </p>
-    {{!-- <p>e{{fulfillments[0].tracking_links[0].tracking_number}}</p> this doesnt work--}}
+   <p> tracking_number: {{tracking_number}} </p>
+{{#if tracking_links}}
+  <p> tracking_links[0].tracking_number: {{tracking_links.[0].tracking_number}} </p>
+{{else}}
+  <p> No hay tracking_links disponibles. </p>
+{{/if}}
 
-    
+{{#if fulfillment.tracking_links}}
+  <p> fulfillment.tracking_links[0].tracking_number: {{fulfillment.tracking_links.[0].tracking_number}} </p>
+{{else}}
+  <p> No hay fulfillment.tracking_links disponibles. </p>
+{{/if}}
+
+{{#if order.fulfillments}}
+  {{#with order.fulfillments.[0]}}
+    {{#if tracking_links}}
+      <p> order.fulfillments[0].tracking_links[0].tracking_number: {{tracking_links.[0].tracking_number}} </p>
+    {{else}}
+      <p> No hay order.fulfillments[0].tracking_links disponibles. </p>
+    {{/if}}
+  {{/with}}
+{{else}}
+  <p> No hay order.fulfillments disponibles. </p>
+{{/if}}
+
+<p> fulfillment.order_id: {{fulfillment.order_id}} </p>
+<p> order.fulfillments[0].order_id: {{order.fulfillments.[0].id}} </p>
+
             {{#each this.tracking_links}}
               <li>
                 Tracking Number: {{this.tracking_number}}
