@@ -49,12 +49,13 @@
                     />
                     <p
                       style="font-size:16px;line-height:24px;margin:16px 0;color:rgb(51,51,51);text-align:left"
-                    >¡Hola &#x27;&#x27;shipping_addres.name&#x27;&#x27;
-                      &#x27;&#x27;s</p>
+                    >¡Hola
+                      {{shipping_address.first_name}}
+                      {{shipping_address.last_name}}</p>
                     <p
                       style="font-size:16px;line-height:24px;margin:16px 0;color:rgb(51,51,51);text-align:left"
                     >Buenas noticias, tú pedido esta en camino</p><a
-                      href="https://www.starken.cl/&#x27;&#x27;pedido&#x27;&#x27;"
+                      href="https://www.starken.cl/{{fulfillment.tracking_numbers.0}}"
                       style="background-color:#656ee8;border-radius:5px;color:#fff;font-size:16px;font-weight:bold;text-decoration:none;text-align:center;display:inline-block;width:100%;padding:10px 10px 10px 10px;line-height:100%;max-width:100%"
                       target="_blank"
                     ><span
@@ -111,7 +112,7 @@
                                             >Email</p><a
                                               style="color:#15c;text-decoration:underline;font-size:12px;margin:0;padding:0;line-height:1.4"
                                               target="_blank"
-                                            >zeno.rocha@gmail.com</a>
+                                            >{{email}}</a>
                                           </td>
                                         </tr>
                                       </tbody>
@@ -135,7 +136,7 @@
                                             >Fecha de envio</p>
                                             <p
                                               style="font-size:12px;line-height:1.4;margin:0;padding:0"
-                                            >18 Jan 2023</p>
+                                            >{{fulfillment.shipped_at}}</p>
                                           </td>
                                         </tr>
                                       </tbody>
@@ -159,7 +160,7 @@
                                             >Número seguimiento</p><a
                                               style="color:#15c;text-decoration:underline;font-size:12px;margin:0;padding:0;line-height:1.4"
                                               target="_blank"
-                                            >ML4F5L8522</a>
+                                            >{{fulfillment.tracking_numbers.[0]}}</a>
                                           </td>
                                           <td
                                             data-id="__react-email-column"
@@ -170,7 +171,7 @@
                                             >Tiempo estimado</p>
                                             <p
                                               style="font-size:12px;line-height:1.4;margin:0;padding:0"
-                                            >186623754793</p>
+                                            >3 días</p>
                                           </td>
                                         </tr>
                                       </tbody>
@@ -184,21 +185,11 @@
                                     <p
                                       style="font-size:10px;line-height:1.4;margin:0;padding:0;color:rgb(102,102,102)"
                                     >Enviado a</p>
-                                    <p
-                                      style="font-size:12px;line-height:1.4;margin:0;padding:0"
-                                    >Visa .... 7461 (Apple Pay)</p>
-                                    <p
-                                      style="font-size:12px;line-height:1.4;margin:0;padding:0"
-                                    >Zeno Rocha</p>
-                                    <p
-                                      style="font-size:12px;line-height:1.4;margin:0;padding:0"
-                                    >2125 Chestnut St</p>
-                                    <p
-                                      style="font-size:12px;line-height:1.4;margin:0;padding:0"
-                                    >San Francisco, CA 94123</p>
-                                    <p
-                                      style="font-size:12px;line-height:1.4;margin:0;padding:0"
-                                    >USA</p>
+              <p style="font-size:12px;line-height:1.4;margin:0;padding:0"></p>
+                                    <p style="font-size:12px;line-height:1.4;margin:0;padding:0">{{billing_address.first_name}} {{billing_address.last_name}}</p>
+                                    <p style="font-size:12px;line-height:1.4;margin:0;padding:0">{{shipping_address.address_1}}, {{shipping_address.city}}, {{shipping_address.province}}</p>
+                                    <p style="font-size:12px;line-height:1.4;margin:0;padding:0">{{shipping_address.region}} {{shipping_address.postal_code}} </p>
+                                    <p style="font-size:12px;line-height:1.4;margin:0;padding:0">{{shipping_address.country_code}}</p>
                                   </td>
                                 </tr>
                               </tbody>
