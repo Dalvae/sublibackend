@@ -55,7 +55,9 @@
                     <p
                       style="font-size:16px;line-height:24px;margin:16px 0;color:rgb(51,51,51);text-align:left"
                     >Buenas noticias, tú pedido esta en camino</p><a
-                      href="https://www.starken.cl/{{fulfillment.tracking_numbers.0}}"
+                      href="https://www.starken.cl/{{first
+                        fulfillment.tracking_numbers
+                      }}"
                       style="background-color:#656ee8;border-radius:5px;color:#fff;font-size:16px;font-weight:bold;text-decoration:none;text-align:center;display:inline-block;width:100%;padding:10px 10px 10px 10px;line-height:100%;max-width:100%"
                       target="_blank"
                     ><span
@@ -160,7 +162,9 @@
                                             >Número seguimiento</p><a
                                               style="color:#15c;text-decoration:underline;font-size:12px;margin:0;padding:0;line-height:1.4"
                                               target="_blank"
-                                            >{{fulfillment.tracking_numbers.[0]}}</a>
+                                            >{{first
+                                                fulfillment.tracking_numbers
+                                              }}</a>
                                           </td>
                                           <td
                                             data-id="__react-email-column"
@@ -185,11 +189,26 @@
                                     <p
                                       style="font-size:10px;line-height:1.4;margin:0;padding:0;color:rgb(102,102,102)"
                                     >Enviado a</p>
-              <p style="font-size:12px;line-height:1.4;margin:0;padding:0"></p>
-                                    <p style="font-size:12px;line-height:1.4;margin:0;padding:0">{{billing_address.first_name}} {{billing_address.last_name}}</p>
-                                    <p style="font-size:12px;line-height:1.4;margin:0;padding:0">{{shipping_address.address_1}}, {{shipping_address.city}}, {{shipping_address.province}}</p>
-                                    <p style="font-size:12px;line-height:1.4;margin:0;padding:0">{{shipping_address.region}} {{shipping_address.postal_code}} </p>
-                                    <p style="font-size:12px;line-height:1.4;margin:0;padding:0">{{shipping_address.country_code}}</p>
+                                    <p
+                                      style="font-size:12px;line-height:1.4;margin:0;padding:0"
+                                    ></p>
+                                    <p
+                                      style="font-size:12px;line-height:1.4;margin:0;padding:0"
+                                    >{{billing_address.first_name}}
+                                      {{billing_address.last_name}}</p>
+                                    <p
+                                      style="font-size:12px;line-height:1.4;margin:0;padding:0"
+                                    >{{shipping_address.address_1}},
+                                      {{shipping_address.city}},
+                                      {{shipping_address.province}}</p>
+                                    <p
+                                      style="font-size:12px;line-height:1.4;margin:0;padding:0"
+                                    >{{shipping_address.region}}
+                                      {{shipping_address.postal_code}}
+                                    </p>
+                                    <p
+                                      style="font-size:12px;line-height:1.4;margin:0;padding:0"
+                                    >{{shipping_address.country_code}}</p>
                                   </td>
                                 </tr>
                               </tbody>
