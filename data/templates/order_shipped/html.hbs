@@ -54,6 +54,8 @@
         <li>Postal Code: {{order.shipping_address.postal_code}}</li>
       </ul>
       <li>Fulfillments:</li>
+      <p>Tracking Number: {{order.fulfillments.[0].tracking_numbers.[0]}}
+</p>
       <ul>
         {{#each order.fulfillments}}
         <li>
