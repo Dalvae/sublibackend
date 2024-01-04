@@ -55,6 +55,7 @@
       </ul>
       <li>Fulfillments:</li>
       <p>Tracking Number: {{order.fulfillments.[0].tracking_numbers.[0]}}
+        Tracking Number: {{fulfillments.[0].tracking_links.[0].tracking_number}}
 </p>
       <ul>
         {{#each order.fulfillments}}
