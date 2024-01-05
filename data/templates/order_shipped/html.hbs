@@ -1,138 +1,100 @@
-<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+<!DOCTYPE html>
 <html dir="ltr" lang="en">
-  <body>
-    <p>Date: {{date}}</p>
-    <p>Email: {{email}}</p>
-    <p>Fulfillment Data:</p>
+<head>
+  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+</head>
+<body>
+  <p>Date: {{date}}</p>
+  <p>Email: {{email}}</p>
+  <p>Fulfillment Data:</p>
+  <ul>
+    <li>ID: {{fulfillment.id}}</li>
+    <li>Created At: {{fulfillment.created_at}}</li>
+    <li>Provider: {{fulfillment.provider_id}}</li>
+    <li>Shipped At: {{fulfillment.shipped_at}}</li>
+    <li>Canceled At: {{fulfillment.canceled_at}}</li>
+    <li>Items:</li>
     <ul>
-      <li>ID: {{fulfillment.id}}</li>
-      <li>Created At: {{fulfillment.created_at}}</li>
-      <li>Provider: {{fulfillment.provider_id}}</li>
-      <li>Shipped At: {{fulfillment.shipped_at}}</li>
-      <li>Canceled At: {{fulfillment.canceled_at}}</li>
-      <li>Items:</li>
-      <ul>
-        {{#each fulfillment.items}}
-        <li>
-          Item ID: {{this.item_id}}
-          Quantity: {{this.quantity}}
-          Product Name: {{this.variant.product.name}}
-          Variant Name: {{this.variant.name}}
-        </li>
-        {{/each}}
-      </ul>
-      <li>Tracking Numbers:</li>
-      <ul>
-        {{#each fulfillment.tracking_numbers}}
-        <li>
-          Tracking Number: {{this}}
-          Carrier: {{this.carrier}}
-          Service: {{this.service}}
-        </li>
-        {{/each}}
-      </ul>
-      <li>Gift Card Total: {{fulfillment.gift_card_total}}</li>
+      {{#each fulfillment.items}}
+      <li>
+        <p>Item ID: {{this.item_id}}</p>
+        <p>Quantity: {{this.quantity}}</p>
+        <p>Product Name: {{this.variant.product.name}}</p>
+        <p>Variant Name: {{this.variant.name}}</p>
+      </li>
+      {{/each}}
     </ul>
-    <p>Locale: {{locale}}</p>
-    <p>Order Data:</p>
+    <li>Tracking Numbers:</li>
     <ul>
-      <li>Order ID: {{order.id}}</li>
-      <li>Customer Email: {{order.customer.email}}</li>
-      <li>Order Status: {{order.status}}</li>
-      <li>Fulfillment Status: {{order.fulfillment_status}}</li>
-      <li>Payment Status: {{order.payment_status}}</li>
-      <li>Total: {{order.total}}</li>
-      <li>Subtotal: {{order.subtotal}}</li>
-      <li>Tax Total: {{order.tax_total}}</li>
-      <li>Shipping Total: {{order.shipping_total}}</li>
-      <li>Gift Card Total: {{order.gift_card_total}}</li>
-      <li>Currency Code: {{order.currency_code}}</li>
-      <li>Shipping Address:</li>
-      <ul>
-        <li>Name: {{order.shipping_address.first_name}} {{order.shipping_address.last_name}}</li>
-        <li>Address 1: {{order.shipping_address.address_1}}</li>
-        <li>Postal Code: {{order.shipping_address.postal_code}}</li>
-      </ul>
-      <li>Fulfillments:</li>
-      <p>Tracking Number: {{order.fulfillments.[0].tracking_numbers.[0]}}
-        Tracking Number: {{fulfillments.[0].tracking_links.[0].tracking_number}}
-</p>
-      <ul>
-        {{#each order.fulfillments}}
-        <li>
-          ID: {{this.id}}
-          Canceled At: {{this.canceled_at}}
-          Items:
-          <ul>
-            {{#each this.items}}
-            <li>
-              Item ID: {{this.item_id}}
-              Quantity: {{this.quantity}}
-              Product Name: {{this.variant.product.name}}
-              Variant Name: {{this.variant.name}}
-              Tax Lines:
-              <ul>
-                {{#each this.tax_lines}}
-                <li>
-                  Code: {{this.code}}
-                  Rate: {{this.rate}}
-                </li>
-                {{/each}}
-              </ul>
-            </li>
-            {{/each}}
-          </ul>
-          Tracking Numbers:
-          <ul>
-   <p> tracking_number: {{tracking_number}} </p>
-{{#if tracking_links}}
-  <p> tracking_links[0].tracking_number: {{tracking_links.[0].tracking_number}} </p>
-{{else}}
-  <p> No hay tracking_links disponibles. </p>
-{{/if}}
-
-{{#if fulfillment.tracking_links}}
-  <p> fulfillment.tracking_links[0].tracking_number: {{fulfillment.tracking_links.[0].tracking_number}} </p>
-{{else}}
-  <p> No hay fulfillment.tracking_links disponibles. </p>
-{{/if}}
-
-{{#if order.fulfillments}}
-  {{#with order.fulfillments.[0]}}
-    {{#if tracking_links}}
-      <p> order.fulfillments[0].tracking_links[0].tracking_number: {{tracking_links.[0].tracking_number}} </p>
-    {{else}}
-      <p> No hay order.fulfillments[0].tracking_links disponibles. </p>
-    {{/if}}
-  {{/with}}
-{{else}}
-  <p> No hay order.fulfillments disponibles. </p>
-{{/if}}
-
-<p> fulfillment.order_id: {{fulfillment.order_id}} </p>
-<p> order.fulfillments[0].order_id: {{order.fulfillments.[0].id}} </p>
-
-            {{#each this.tracking_links}}
+      {{#each fulfillment.tracking_numbers}}
+      <li>
+        <p>Tracking Number: {{this}}</p>
+        <p>Carrier: {{this.carrier}}</p>
+        <p>Service: {{this.service}}</p>
+      </li>
+      {{/each}}
+    </ul>
+    <li>Gift Card Total: {{fulfillment.gift_card_total}}</li>
+  </ul>
+  <p>Locale: {{locale}}</p>
+  <p>Order Data:</p>
+  <ul>
+    <li>Order ID: {{order.id}}</li>
+    <li>Customer Email: {{order.customer.email}}</li>
+    <li>Order Status: {{order.status}}</li>
+    <li>Fulfillment Status: {{order.fulfillment_status}}</li>
+    <li>Payment Status: {{order.payment_status}}</li>
+    <li>Total: {{order.total}}</li>
+    <li>Subtotal: {{order.subtotal}}</li>
+    <li>Tax Total: {{order.tax_total}}</li>
+    <li>Shipping Total: {{order.shipping_total}}</li>
+    <li>Gift Card Total: {{order.gift_card_total}}</li>
+    <li>Currency Code: {{order.currency_code}}</li>
+    <li>Shipping Address:</li>
+    <ul>
+      <li>Name: {{order.shipping_address.first_name}} {{order.shipping_address.last_name}}</li>
+      <li>Address 1: {{order.shipping_address.address_1}}</li>
+      <li>Postal Code: {{order.shipping_address.postal_code}}</li>
+    </ul>
+    <li>Fulfillments:</li>
+    <ul>
+      {{#each order.fulfillments}}
+      <li>
+        <p>ID: {{this.id}}</p>
+        <p>Canceled At: {{this.canceled_at}}</p>
+        <p>Items:</p>
+        <ul>
+          {{#each this.items}}
+          <li>
+            <p>Item ID: {{this.item_id}}</p>
+            <p>Quantity: {{this.quantity}}</p>
+            <p>Product Name: {{this.variant.product.name}}</p>
+            <p>Variant Name: {{this.variant.name}}</p>
+            <p>Tax Lines:</p>
+            <ul>
+              {{#each this.tax_lines}}
               <li>
-                Tracking Number: {{this.tracking_number}}
-                Carrier: {{this.carrier}}
-                Service: {{this.service}}
+                <p>Code: {{this.code}}</p>
+                <p>Rate: {{this.rate}}</p>
               </li>
-            {{/each}}
-          </ul>
-          
-
-           <ul>
-  {{#each fulfillment.tracking_links as |tracking_link|}}
-    <li>
-      <!-- Accede a las propiedades de cada elemento en el array -->
-      <p>{{tracking_link.tracking_number}}</p>
-    </li>
-  {{/each}}
-</ul>
-        </li>
-        {{/each}}
-      </ul>
+              {{/each}}
+            </ul>
+          </li>
+          {{/each}}
+        </ul>
+        <p>Tracking Numbers:</p>
+        <ul>
+          {{#each this.tracking_numbers}}
+          <li>
+            <p>Tracking Number: {{this}}</p>
+            <p>Carrier: {{this.carrier}}</p>
+            <p>Service: {{this.service}}</p>
+          </li>
+          {{/each}}
+        </ul>
+      </li>
+      {{/each}}
     </ul>
-  </body>
+  </ul>
+</body>
 </html>
