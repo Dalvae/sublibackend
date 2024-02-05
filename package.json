@@ -45,7 +45,7 @@
     "medusa-plugin-auth": "^1.8.1",
     "medusa-plugin-resend": "^1.1.0",
     "prism-react-renderer": "^2.0.4",
-    "transbank-sdk": "4.0.0",
+    "transbank-sdk": "5.0.0",
     "typeorm": "^0.3.16",
     "uuid": "^9.0.1",
     "medusa-plugin-algolia": "^0.2.20"
